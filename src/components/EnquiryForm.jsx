@@ -20,15 +20,40 @@ const EnquiryForm = () => {
     }
     setLoading(true);
     try {
-      await pb.collection('inquiries').create({ ...form, status: 'new' });
-      toast({ title: 'Enquiry sent!', description: 'Our counsellors will contact you shortly.' });
-      setForm({ name: '', email: '', phone: '', country: '', message: '' });
-    } catch (err) {
-      toast({ title: 'Something went wrong.', description: 'Please try again or WhatsApp us.', variant: 'destructive' });
-    } finally {
-      setLoading(false);
+  const response = await fetch(
+    "https://formspree.io/f/xgogoroy",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(form),
     }
-  };
+  );
+
+  if (!response.ok) {
+    throw new Error("Submission failed");
+  }
+
+  toast({
+    title: "Enquiry Sent!",
+    description: "Our counsellors will contact you shortly.",
+  });
+
+  setForm({
+    name: "",
+    email: "",
+    phone: "",
+    country: "",
+    message: "",
+  });
+} catch (err) {
+  toast({
+    title: "Submission Failed",
+    description: "Please try again later.",
+    variant: "destructive",
+  });
 
   const inputCls =
     'w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-white placeholder:text-white/50 outline-none transition focus:border-gold focus:bg-white/15';
