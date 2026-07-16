@@ -1,86 +1,137 @@
-import { useState } from 'react';
-import { Loader2, Send } from 'lucide-react';
-import pb from '@/lib/pocketbaseClient';
-import { useToast } from '@/hooks/use-toast';
-
-const COUNTRIES = ['Russia', 'Georgia', 'Kyrgyzstan', 'Uzbekistan', 'Kazakhstan', 'Undecided'];
+import { useState } from "react";
 
 const EnquiryForm = () => {
-  const { toast } = useToast();
-  const [form, setForm] = useState({ name: '', email: '', phone: '', country: '', message: '' });
   const [loading, setLoading] = useState(false);
 
-  const update = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
-
-  const submit = async (e) => {
-    e.preventDefault();
-    if (!form.country) {
-      toast({ title: 'Please select a country of interest.', variant: 'destructive' });
-      return;
-    }
-    setLoading(true);
-    try {
-  const response = await fetch(
-    "https://formspree.io/f/xgogoroy",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(form),
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error("Submission failed");
-  }
-
-  toast({
-    title: "Enquiry Sent!",
-    description: "Our counsellors will contact you shortly.",
-  });
-
-  setForm({
+  const [form, setForm] = useState({
     name: "",
     email: "",
     phone: "",
-    country: "",
     message: "",
   });
-} catch (err) {
-  toast({
-    title: "Submission Failed",
-    description: "Please try again later.",
-    variant: "destructive",
-  });
 
-  const inputCls =
-    'w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-white placeholder:text-white/50 outline-none transition focus:border-gold focus:bg-white/15';
+  const update = (key) => (e) => {
+    setForm((prev) => ({
+      ...prev,
+      [key]: e.target.value,
+    }));
+  };
+
+  const submit = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      const response = await fetch(
+        "https://formspree.io/f/xgogoroy",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(form),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed");
+      }
+
+      alert("Enquiry submitted successfully!");
+
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+    } catch (error) {
+      alert("Failed to submit enquiry");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const inputStyle = {
+    width: "100%",
+    padding: "14px",
+    borderRadius: "12px",
+    border: "1px solid #4f5d7a",
+    backgroundColor: "#34415f",
+    color: "#ffffff",
+    fontSize: "16px",
+    boxSizing: "border-box",
+  };
 
   return (
-    <form onSubmit={submit} className="space-y-4">
-      <div className="grid gap-4 sm:grid-cols-2">
-        <input required value={form.name} onChange={update('name')} placeholder="Full name" className={inputCls} />
-        <input required type="email" value={form.email} onChange={update('email')} placeholder="Email address" className={inputCls} />
+    <form
+      onSubmit={submit}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
+      }}
+    >
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "20px",
+        }}
+      >
+        <input
+          type="text"
+          placeholder="Full name"
+          value={form.name}
+          onChange={update("name")}
+          style={inputStyle}
+          required
+        />
+
+        <input
+          type="email"
+          placeholder="Email address"
+          value={form.email}
+          onChange={update("email")}
+          style={inputStyle}
+          required
+        />
       </div>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <input required value={form.phone} onChange={update('phone')} placeholder="Phone number" className={inputCls} />
-        <select required value={form.country} onChange={update('country')} className={`${inputCls} ${form.country ? '' : 'text-white/50'}`}>
-          <option value="" disabled className="text-navy">Country of interest</option>
-          {COUNTRIES.map((c) => (
-            <option key={c} value={c} className="text-navy">{c}</option>
-          ))}
-        </select>
-      </div>
-      <textarea value={form.message} onChange={update('message')} rows={3} placeholder="Your message (optional)" className={inputCls} />
+
+      <input
+        type="text"
+        placeholder="Phone number"
+        value={form.phone}
+        onChange={update("phone")}
+        style={inputStyle}
+        required
+      />
+
+      <textarea
+        rows={4}
+        placeholder="Comments (optional)"
+        value={form.message}
+        onChange={update("message")}
+        style={inputStyle}
+      />
+
       <button
         type="submit"
         disabled={loading}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gold px-6 py-3.5 font-semibold text-navy-deep transition hover:bg-gold-soft active:scale-[0.98] disabled:opacity-70"
+        style={{
+          backgroundColor: "#D9A52A",
+          color: "#001B44",
+          border: "none",
+          padding: "16px",
+          borderRadius: "12px",
+          fontWeight: "600",
+          fontSize: "18px",
+          cursor: "pointer",
+        }}
       >
-        {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
-        {loading ? 'Sending...' : 'Submit Enquiry'}
+        {loading ? "Sending..." : "Submit Enquiry"}
       </button>
     </form>
   );
