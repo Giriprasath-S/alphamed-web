@@ -67,27 +67,18 @@ const HomePage = () => {
             <nav className="flex items-center justify-between px-6 py-4 bg-[#081c49]">
 
   <div className="flex items-center gap-4">
+  <img
+    src="/images/logo.png"
+    alt="AlphaMed Logo"
+    className="h-24 w-auto object-contain"
+  />
 
-    .png"
-      alt="AlphaMed Logo"
-      style={{
-        height: "90px",
-        width: "auto",
-        objectFit: "contain"
-      }}
-    /{'>'}
-
-    <div>
-      <h1 className="text-3xl font-bold text-white">
-        AlphaMed
-      </h1>
-
-      <p className="text-yellow-400">
-        EDU CONSULTANCY
-      </p>
-    </div>
-
+  <div>
+    <h1 className="text-yellow-400 font-semibold tracking-wider">
+      EDU CONSULTANCY
+    </h1>
   </div>
+</div>
 
 </nav>
           </button>
