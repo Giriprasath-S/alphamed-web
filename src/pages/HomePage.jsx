@@ -65,10 +65,15 @@ const HomePage = () => {
         <div className="mx-auto flex max-w-[90rem] items-center justify-between px-5 py-4">
           <button onClick={() => go('top')} className="flex items-center gap-2 text-white">
             <img
-              src="/images/logo.png"
-              alt="AlphaMed logo"
-              className="h-10 w-10 rounded-lg object-cover"
-            />
+  src="/images/logo.png"
+  alt="AlphaMed Logo"
+  style={{
+    height: "70px",
+    width: "auto",
+    objectFit: "contain",
+  }}
+/>
+
             <span className="font-display text-lg font-semibold leading-tight">AlphaMed<span className="block text-[10px] font-sans font-normal tracking-widest text-gold">EDU CONSULTANCY</span></span>
           </button>
           <nav className="hidden items-center gap-7 lg:flex">
