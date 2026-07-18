@@ -71,14 +71,7 @@ const HomePage = () => {
     src="/images/logo.png"
     alt="AlphaMed Logo"
     className="h-24 w-auto object-contain"
-  />
-
-  <div>
-    <h1 className="text-yellow-400 font-semibold tracking-wider">
-      EDU CONSULTANCY
-    </h1>
-  </div>
-</div>
+  /></div>
 
 </nav>
           </button>
