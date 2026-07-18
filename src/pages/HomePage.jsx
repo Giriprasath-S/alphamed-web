@@ -64,16 +64,8 @@ const HomePage = () => {
       <header className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${scrolled ? 'bg-navy-deep/95 backdrop-blur shadow-lg shadow-black/20' : 'bg-transparent'}`}>
         <div className="mx-auto flex max-w-[90rem] items-center justify-between px-5 py-4">
           <button onClick={() => go('top')} className="flex items-center gap-2 text-white">
-            <nav className="flex items-center justify-between px-6 py-4 bg-[#081c49]">
-
-  <div className="flex items-center gap-4">
-  <img
-    src="/images/logo.png"
-    alt="AlphaMed Logo"
-    className="h-24 w-auto object-contain"
-  /></div>
-
-</nav>
+          <img src="/images/logo.png" alt="AlphaMed Logo" className="h-24 w-auto object-contain" />
+            <span className="block text-[30px] font-display text-lg font-semibold leading-tight">AlphaMed<span className="block text-[20px] font-sans font-bold tracking-widest text-gold">EDU CONSULTANCY</span></span>
           </button>
           <nav className="hidden items-center gap-7 lg:flex">
             {NAV.map(([label, id]) => (
